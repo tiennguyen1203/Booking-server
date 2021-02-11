@@ -3,8 +3,7 @@ import * as dotenv from 'dotenv';
 dotenv.config();
 
 class ConfigService {
-
-  constructor(private env: { [k: string]: string | undefined }) { }
+  constructor(private env: { [k: string]: string | undefined }) {}
 
   private getValue(key: string, throwOnMissing = true): string {
     const value = this.env[key];
@@ -16,7 +15,7 @@ class ConfigService {
   }
 
   public ensureValues(keys: string[]) {
-    keys.forEach(k => this.getValue(k, true));
+    keys.forEach((k) => this.getValue(k, true));
     return this;
   }
 
@@ -33,35 +32,32 @@ class ConfigService {
     return {
       type: 'postgres',
 
-      host: this.getValue('POSTGRES_HOST'),
-      port: parseInt(this.getValue('POSTGRES_PORT')),
-      username: this.getValue('POSTGRES_USER'),
-      password: this.getValue('POSTGRES_PASSWORD'),
-      database: this.getValue('POSTGRES_DATABASE'),
+      url: this.getValue('DATABASE_URL'),
 
-      entities: ['**/*.entity{.ts,.js}'],
+      entities: [__dirname + '/../**/*.entity.{ts,js}'],
 
       migrationsTableName: 'migration',
 
-      migrations: ['src/db/migration/*.ts'],
+      migrations: [__dirname + '/db/migration/*.{ts,js}'],
 
       cli: {
-        migrationsDir: 'src/db/migration',
+        migrationsDir: __dirname + '/db/migration',
       },
 
-      ssl: this.isProduction(),
+      ssl: {
+        rejectUnauthorized: false,
+      },
     };
   }
-
 }
 
-const configService = new ConfigService(process.env)
-  .ensureValues([
-    'POSTGRES_HOST',
-    'POSTGRES_PORT',
-    'POSTGRES_USER',
-    'POSTGRES_PASSWORD',
-    'POSTGRES_DATABASE'
-  ]);
+const configService = new ConfigService(process.env).ensureValues([
+  // 'POSTGRES_HOST',
+  // 'POSTGRES_PORT',
+  // 'POSTGRES_USER',
+  // 'POSTGRES_PASSWORD',
+  // 'POSTGRES_DATABASE',
+  'DATABASE_URL',
+]);
 
 export { configService };

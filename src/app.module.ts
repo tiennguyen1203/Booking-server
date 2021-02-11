@@ -10,9 +10,9 @@ import { LocationsModule } from './model/locations/locations.module';
   imports: [
     TypeOrmModule.forRoot(configService.getTypeOrmConfig()),
     LocationTypesModule,
-    LocationsModule
+    LocationsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule { };
+export class AppModule {}

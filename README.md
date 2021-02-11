@@ -45,17 +45,27 @@ $ npm run start:dev
 $ npm run start:prod
 ```
 
-## Test
-
+## Migration
 ```bash
-# unit tests
-$ npm run test
+# create migration file: 
+$ yarn typeorm migration:create -n "file name"
 
-# e2e tests
-$ npm run test:e2e
+# run migration:
+$ yarn typeorm migration:run
 
-# test coverage
-$ npm run test:cov
+# revert/rollback migration:
+$ yarn typeorm migration:revert
+```
+
+## Model
+```bash
+# create module:
+$ nest g module model/${module_name}. 
+Example: nest g module model/users
+
+# create controller/service
+$ nest g controller/service model/${module_name}: 
+Example: nest g controller model/users OR nest g service model/users
 ```
 
 ## Support
