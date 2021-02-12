@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Pagination } from '../../paginate';
-import { QueryDto } from './../base-dto/base.dto';
+import { Pagination } from '../../../paginate';
+import { QueryDto } from '../../../base/base-dto/base.dto';
 import { Location } from './location.entity';
 import { LocationRepository } from './location.repository';
 
