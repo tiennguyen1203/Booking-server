@@ -1,6 +1,5 @@
-import { Column, Entity, BaseEntity } from 'typeorm';
-import { CustomBaseEntity } from '../base.entity';
-// import { BaseEntity } from '../base.entity';
+import { Column, Entity } from 'typeorm';
+import { CustomBaseEntity } from '../../../base/base.entity';
 import { CreateLocationDto } from './dto/create-location.dto';
 
 @Entity({ name: 'location' })

@@ -7,13 +7,13 @@ import {
   ValidationPipe,
 } from '@nestjs/common';
 import { Pagination } from 'src/paginate';
-import { QueryParamsPipe } from '../pipes/query-params.pipe';
-import { QueryDto } from './../base-dto/base.dto';
+import { QueryParamsPipe } from '../../../base/pipes/query-params.pipe';
+import { QueryDto } from '../../../base/base-dto/base.dto';
 import { CreateLocationDto } from './dto/create-location.dto';
 import { Location } from './location.entity';
 import { LocationsService } from './locations.service';
 
-@Controller('locations')
+@Controller('admin/locations')
 export class LocationsController {
   constructor(private locationsService: LocationsService) {}
 
