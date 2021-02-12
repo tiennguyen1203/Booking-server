@@ -1,5 +1,5 @@
 import { EntityRepository, Repository } from 'typeorm';
-import { QueryDto } from './../base-dto/base.dto';
+import { QueryDto } from '../../../base/base-dto/base.dto';
 import { CreateLocationDto } from './dto/create-location.dto';
 import { Location } from './location.entity';
 

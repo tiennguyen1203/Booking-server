@@ -38,26 +38,29 @@ class ConfigService {
 
       migrationsTableName: 'migration',
 
-      migrations: [__dirname + '/db/migration/*.{ts,js}'],
+      migrations: [__dirname + '/../db/migration/*.{ts,js}'],
 
       cli: {
-        migrationsDir: __dirname + '/db/migration',
+        migrationsDir: __dirname + '/../db/migration',
       },
 
-      ssl: {
-        rejectUnauthorized: false,
-      },
+      ssl: this.isProduction()
+        ? {
+            rejectUnauthorized: false,
+          }
+        : null,
     };
   }
 }
 
 const configService = new ConfigService(process.env).ensureValues([
-  // 'POSTGRES_HOST',
-  // 'POSTGRES_PORT',
-  // 'POSTGRES_USER',
-  // 'POSTGRES_PASSWORD',
-  // 'POSTGRES_DATABASE',
   'DATABASE_URL',
 ]);
 
-export { configService };
+const config = {
+  password: {
+    salt: process.env.SALT,
+  },
+};
+
+export { configService, config };
