@@ -63,4 +63,8 @@ const config = {
   },
 };
 
-export { configService, config };
+const jwtConfig = {
+  accessSecret: process.env.JWT_ACCESS_SECRET,
+};
+
+export { configService, config, jwtConfig };

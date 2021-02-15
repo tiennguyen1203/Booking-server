@@ -1,6 +1,8 @@
+import { Injectable } from '@nestjs/common';
 import * as bcrypt from 'bcrypt';
-import { config } from 'src/config/config.service';
+import { config } from '../config/config.service';
 
+@Injectable()
 class PasswordServices {
   round: string | number;
   constructor() {
