@@ -21,14 +21,17 @@ export class CreateLocationType1612342010644 implements MigrationInterface {
           {
             name: 'description',
             type: 'text',
+            isNullable: true,
           },
           {
             name: 'createdAt',
             type: 'timestamptz',
+            isNullable: true,
           },
           {
             name: 'updatedAt',
             type: 'timestamptz',
+            isNullable: true,
           },
         ],
       }),
