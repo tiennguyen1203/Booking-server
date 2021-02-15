@@ -3,8 +3,9 @@ import {
   IsArray,
   IsBoolean,
   IsEmail,
-  IsJSON,
   IsNotEmpty,
+  IsObject,
+  IsOptional,
   IsPhoneNumber,
   IsString,
   IsUUID,
@@ -12,7 +13,6 @@ import {
 
 export class CreateLocationDto {
   @IsNotEmpty()
-  @IsString()
   @IsUUID()
   @ApiProperty()
   locationTypeId: string;
@@ -29,38 +29,47 @@ export class CreateLocationDto {
 
   @IsNotEmpty()
   @IsString()
+  @IsOptional()
   @ApiProperty()
   city: string;
 
-  @IsJSON()
+  @IsOptional()
+  @IsObject()
   @ApiProperty({ required: false })
   workingTime: any;
 
   @IsPhoneNumber()
+  @IsOptional()
   @ApiProperty({ required: false })
   contactPhoneNumber: string;
 
   @IsEmail()
+  @IsOptional()
   @ApiProperty({ required: false })
   contactEmail: string;
 
   @IsString()
+  @IsOptional()
   @ApiProperty({ required: false })
   price: string;
 
   @IsString()
+  @IsOptional()
   @ApiProperty({ required: false })
   description: string;
 
   @IsString()
+  @IsOptional()
   @ApiProperty({ required: false })
   thumbnail: string;
 
   @IsArray()
+  @IsOptional()
   @ApiProperty({ required: false })
   images: string[];
 
   @IsBoolean()
+  @IsOptional()
   @ApiProperty({ required: false })
   isFeatured: boolean;
 }

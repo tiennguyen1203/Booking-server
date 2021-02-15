@@ -64,7 +64,7 @@ export class Location extends CustomBaseEntity {
   constructor(input?: CreateLocationDto) {
     super();
     for (const element in input) {
-      this[element] = element;
+      this[element] = input[element];
     }
   }
 }
