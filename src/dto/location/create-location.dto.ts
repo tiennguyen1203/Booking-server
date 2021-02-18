@@ -3,8 +3,9 @@ import {
   IsArray,
   IsBoolean,
   IsEmail,
-  IsJSON,
   IsNotEmpty,
+  IsObject,
+  IsOptional,
   IsPhoneNumber,
   IsString,
   IsUUID,
@@ -12,7 +13,6 @@ import {
 
 export class CreateLocationDto {
   @IsNotEmpty()
-  @IsString()
   @IsUUID()
   @ApiProperty()
   locationTypeId: string;
@@ -25,42 +25,51 @@ export class CreateLocationDto {
   @IsNotEmpty()
   @IsString()
   @ApiProperty()
-  address: string;
+  address?: string;
 
   @IsNotEmpty()
   @IsString()
+  @IsOptional()
   @ApiProperty()
-  city: string;
+  city?: string;
 
-  @IsJSON()
+  @IsOptional()
+  @IsObject()
   @ApiProperty({ required: false })
-  workingTime: any;
+  workingTime?: any;
 
   @IsPhoneNumber()
+  @IsOptional()
   @ApiProperty({ required: false })
-  contactPhoneNumber: string;
+  contactPhoneNumber?: string;
 
   @IsEmail()
+  @IsOptional()
   @ApiProperty({ required: false })
-  contactEmail: string;
+  contactEmail?: string;
 
   @IsString()
+  @IsOptional()
   @ApiProperty({ required: false })
-  price: string;
+  price?: string | number;
 
   @IsString()
+  @IsOptional()
   @ApiProperty({ required: false })
-  description: string;
+  description?: string;
 
   @IsString()
+  @IsOptional()
   @ApiProperty({ required: false })
-  thumbnail: string;
+  thumbnail?: string;
 
   @IsArray()
+  @IsOptional()
   @ApiProperty({ required: false })
-  images: string[];
+  images?: string[];
 
   @IsBoolean()
+  @IsOptional()
   @ApiProperty({ required: false })
-  isFeatured: boolean;
+  isFeatured?: boolean;
 }

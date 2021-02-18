@@ -27,59 +27,73 @@ export class CreateTableLocation1612363821886 implements MigrationInterface {
           {
             name: 'address',
             type: 'varchar',
+            isNullable: true,
           },
           {
             name: 'city',
             type: 'varchar',
+            isNullable: true,
           },
           {
             name: 'geoLocation',
             type: 'geometry(Point, 4326)',
+            isNullable: true,
           },
           {
             name: 'workingTime',
             type: 'jsonb',
+            isNullable: true,
           },
           {
             name: 'contactPhoneNumber',
             type: 'varchar',
+            isNullable: true,
           },
           {
             name: 'contactEmail',
             type: 'varchar',
+            isNullable: true,
           },
           {
             name: 'score',
             type: 'float',
+            isNullable: true,
           },
           {
             name: 'price',
             type: 'varchar',
+            isNullable: true,
           },
           {
             name: 'description',
             type: 'text',
+            isNullable: true,
           },
           {
             name: 'thumbnail',
             type: 'text',
+            isNullable: true,
           },
           {
             name: 'images',
             type: 'text[]',
+            isNullable: true,
           },
           {
             name: 'isFeatured',
             type: 'boolean',
             default: false,
+            isNullable: true,
           },
           {
             name: 'createdAt',
             type: 'timestamptz',
+            isNullable: true,
           },
           {
             name: 'updatedAt',
             type: 'timestamptz',
+            isNullable: true,
           },
         ],
       }),

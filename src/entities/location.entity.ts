@@ -61,10 +61,14 @@ export class Location extends CustomBaseEntity {
   @ApiProperty()
   isFeatured: boolean;
 
+  @Column({ nullable: true, type: 'jsonb' })
+  @ApiProperty()
+  coordinates?: { longitude: string | number; latitude: string | number };
+
   constructor(input?: CreateLocationDto) {
     super();
     for (const element in input) {
-      this[element] = element;
+      this[element] = input[element];
     }
   }
 }

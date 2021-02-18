@@ -9,4 +9,9 @@ export class AppController {
   getHello(): string {
     return this.appService.getHello();
   }
+
+  @Get('app/config')
+  getAppConfig(): Promise<any> {
+    return this.appService.getAppConfig();
+  }
 }
