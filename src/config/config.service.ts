@@ -51,6 +51,27 @@ class ConfigService {
         : null,
     };
   }
+
+  public getTypeOrmConfigTestEnv(): TypeOrmModuleOptions {
+    return {
+      type: 'postgres',
+
+      url: 'postgresql://postgres:hoang123@localhost:5432/booking_nestjs',
+
+      entities: [__dirname + '/../**/*.entity.{ts,js}'],
+
+      migrationsTableName: 'migration',
+
+      migrations: [__dirname + '/../db/migration/*.{ts,js}'],
+
+      cli: {
+        migrationsDir: __dirname + '/../db/migration',
+      },
+
+      dropSchema: true,
+      migrationsRun: true,
+    };
+  }
 }
 
 const configService = new ConfigService(process.env).ensureValues([
