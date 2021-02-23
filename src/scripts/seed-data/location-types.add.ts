@@ -1,5 +1,5 @@
 import { createConnection } from 'typeorm';
-import { LocationType } from '../entities';
+import { LocationType } from '../../entities';
 
 const addLocationType = async (): Promise<void> => {
   await createConnection('default');

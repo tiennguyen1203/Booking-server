@@ -1,6 +1,6 @@
 import { exit } from 'process';
 import { createConnection } from 'typeorm';
-import { Location, LocationType } from '../entities';
+import { Location, LocationType } from '../../entities';
 import locationData from './Da_Nang_2021-02-15_18_43_16.json';
 import find from 'lodash/find';
 import { CreateLocationDto } from 'src/dto';
