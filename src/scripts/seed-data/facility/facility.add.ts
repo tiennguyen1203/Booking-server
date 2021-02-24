@@ -1,8 +1,8 @@
 import uniq from 'lodash/uniq';
 import { exit } from 'process';
 import { createConnection } from 'typeorm';
-import { Facility } from '../../entities';
-import locationData from './Da_Nang_2021-02-15_18_43_16.json';
+import { Facility } from '../../../entities';
+import locationData from '../Da_Nang_2021-02-15_18_43_16.json';
 let addedFacilities: string[];
 
 const insertFacility = async (facility) => {
@@ -40,7 +40,7 @@ const insertFacilities = async ({
   );
 };
 
-const addFacilities = async (): Promise<void> => {
+export const addFacilities = async (): Promise<void> => {
   console.log('>> Creating connection');
   await createConnection('default');
   console.log('>> Created connection succeeded');

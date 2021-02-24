@@ -1,7 +1,7 @@
 import { createConnection } from 'typeorm';
-import { LocationType } from '../../entities';
+import { LocationType } from '../../../entities';
 
-const addLocationType = async (): Promise<void> => {
+export const addLocationTypes = async (): Promise<void> => {
   await createConnection('default');
   const locationType1 = new LocationType();
 
@@ -18,7 +18,7 @@ const addLocationType = async (): Promise<void> => {
 };
 
 const processData = async (): Promise<void> => {
-  await addLocationType();
+  await addLocationTypes();
 };
 
 processData().then(() => {
