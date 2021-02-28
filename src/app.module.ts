@@ -9,7 +9,7 @@ import { BaseLocationTypeRepository } from './modules/base/location-types/locati
 import { CustomerAuthModule } from './modules/customer/auth/auth.module';
 import { CustomerUsersModule } from './modules/customer/users/users.module';
 import { LocationsModule as SuperAdminLocationsModule } from './modules/super-admin/locations/locations.module';
-
+import { CustomerLocationsModule } from './modules/customer/locations/locations.module';
 @Module({
   imports: [
     TypeOrmModule.forRoot(configService.getTypeOrmConfig()),
@@ -22,6 +22,8 @@ import { LocationsModule as SuperAdminLocationsModule } from './modules/super-ad
     AdminLocationTypesModule,
 
     SuperAdminLocationsModule,
+
+    CustomerLocationsModule
   ],
   controllers: [AppController],
   providers: [AppService],
