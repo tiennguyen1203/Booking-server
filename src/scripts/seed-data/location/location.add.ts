@@ -1,9 +1,8 @@
-import { exit } from 'process';
-import { createConnection } from 'typeorm';
-import { Location, LocationType } from '../../../entities';
-import locationData from '../Da_Nang_2021-02-15_18_43_16.json';
 import find from 'lodash/find';
 import { CreateLocationDto } from 'src/dto';
+import { createConnection, getConnectionManager } from 'typeorm';
+import { Location, LocationType } from '../../../entities';
+import locationData from '../Da_Nang_2021-02-15_18_43_16.json';
 console.log(locationData[2].length);
 
 const getLocationTypeIdForLocation = (
@@ -65,7 +64,12 @@ const insertLocation = async (location, locationTypes: LocationType[]) => {
 };
 
 export const addLocations = async (): Promise<void> => {
-  await createConnection('default');
+  const connectionManager = getConnectionManager();
+  if (!connectionManager.has('default')) {
+    // ? load connection options from ormconfig or environment
+    await createConnection('default');
+  }
+
   const locationTypes: LocationType[] = await LocationType.find();
   for (const locations of Object.values(locationData)) {
     await Promise.all(
@@ -73,12 +77,3 @@ export const addLocations = async (): Promise<void> => {
     );
   }
 };
-
-const processData = async (): Promise<void> => {
-  await addLocations();
-};
-
-processData().then(() => {
-  console.log('Done !!!');
-  exit();
-});

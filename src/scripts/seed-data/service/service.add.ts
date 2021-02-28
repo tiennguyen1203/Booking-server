@@ -1,6 +1,5 @@
 import uniq from 'lodash/uniq';
-import { exit } from 'process';
-import { createConnection } from 'typeorm';
+import { createConnection, getConnectionManager } from 'typeorm';
 import { Service, ServiceType } from '../../../entities';
 import locationData from '../Da_Nang_2021-02-15_18_43_16.json';
 let addedServices: string[];
@@ -57,9 +56,11 @@ const insertServices = async ({
 };
 
 export const addServices = async (): Promise<void> => {
-  console.log('>> Creating connection');
-  await createConnection('default');
-  console.log('>> Created connection succeeded');
+  const connectionManager = getConnectionManager();
+  if (!connectionManager.has('default')) {
+    // ? load connection options from ormconfig or environment
+    await createConnection('default');
+  }
 
   addedServices = (await Service.find()).map((service) => service.name);
   for (const locations of Object.values(locationData)) {
@@ -78,12 +79,3 @@ export const addServices = async (): Promise<void> => {
 
   console.log(addedServices.length);
 };
-
-const processData = async (): Promise<void> => {
-  await addServices();
-};
-
-processData().then(() => {
-  console.log('Done !!!');
-  exit();
-});

@@ -1,8 +1,13 @@
-import { createConnection } from 'typeorm';
+import { createConnection, getConnectionManager } from 'typeorm';
 import { LocationType } from '../../../entities';
 
 export const addLocationTypes = async (): Promise<void> => {
-  await createConnection('default');
+  const connectionManager = getConnectionManager();
+  if (!connectionManager.has('default')) {
+    // ? load connection options from ormconfig or environment
+    await createConnection('default');
+  }
+
   const locationType1 = new LocationType();
 
   locationType1.name = 'Hotel';
@@ -16,11 +21,3 @@ export const addLocationTypes = async (): Promise<void> => {
   locationType2.updatedAt = new Date();
   await locationType2.save();
 };
-
-const processData = async (): Promise<void> => {
-  await addLocationTypes();
-};
-
-processData().then(() => {
-  console.log('Done !!!');
-});
