@@ -44,6 +44,8 @@ class ConfigService {
         migrationsDir: __dirname + '/../db/migration',
       },
 
+      keepConnectionAlive: true,
+
       ssl: this.isProduction()
         ? {
             rejectUnauthorized: false,
