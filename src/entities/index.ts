@@ -4,5 +4,5 @@ import { Location } from './location.entity';
 import { ServiceType } from './service-type.entity';
 import { Service } from './service.entity';
 import { User } from './user.entity';
-
-export { LocationType, Location, User, Facility, ServiceType, Service };
+import { Room } from './room.entity';
+export { LocationType, Location, User, Facility, ServiceType, Service, Room };
