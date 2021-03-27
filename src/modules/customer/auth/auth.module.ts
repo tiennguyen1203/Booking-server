@@ -8,7 +8,7 @@ import { CustomerAuthController } from './auth.controller';
 import { CustomerAuthService } from './auth.service';
 import { JwtStrategy } from './jwt.strategy';
 
-const passportModule = PassportModule.register({
+export const passportModule = PassportModule.register({
   defaultStrategy: 'jwt',
 });
 @Module({

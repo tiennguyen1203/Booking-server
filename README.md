@@ -57,6 +57,12 @@ $ yarn typeorm migration:run
 $ yarn typeorm migration:revert
 ```
 
+## Seed data for local db to dev
+
+```bash
+$ yarn ts-node src/scripts/seed-data/index.ts
+```
+
 ## Model
 ```bash
 # create module:

@@ -1,7 +1,9 @@
-import { Column, Entity } from 'typeorm';
-import { CustomBaseEntity } from './base.entity';
-import { CreateLocationDto } from '../dto/location/create-location.dto';
 import { ApiProperty } from '@nestjs/swagger';
+import { IsDefined, IsOptional } from 'class-validator';
+import { Column, Entity, JoinColumn, ManyToOne } from 'typeorm';
+import { CreateLocationDto } from '../dto/location/create-location.dto';
+import { CustomBaseEntity } from './base.entity';
+import { LocationType } from './location-type.entity';
 
 @Entity({ name: 'location' })
 export class Location extends CustomBaseEntity {
@@ -15,55 +17,63 @@ export class Location extends CustomBaseEntity {
 
   @Column()
   @ApiProperty()
-  description: string;
+  description?: string;
+
+  @Column()
+  @ApiProperty({ required: false })
+  @IsOptional()
+  address?: string;
 
   @Column()
   @ApiProperty()
-  address: string;
-
-  @Column()
-  @ApiProperty()
-  city: string;
+  city?: string;
 
   @Column({ type: 'geometry' })
   @ApiProperty()
-  geoLocation: any;
+  geoLocation?: any;
 
   @Column({ type: 'jsonb' })
   @ApiProperty()
-  workingTime: any;
+  workingTime?: any;
 
   @Column()
   @ApiProperty()
-  contactPhoneNumber: string;
+  contactPhoneNumber?: string;
 
   @Column()
   @ApiProperty()
-  contactEmail: string;
+  contactEmail?: string;
 
   @Column()
   @ApiProperty()
-  score: number;
+  score?: number;
 
   @Column()
   @ApiProperty()
-  price: string;
+  price?: string;
 
   @Column()
   @ApiProperty()
-  thumbnail: string;
+  thumbnail?: string;
 
   @Column('varchar', { array: true })
   @ApiProperty()
-  images: string[];
+  images?: string[];
 
   @Column({ default: false })
   @ApiProperty()
-  isFeatured: boolean;
+  isFeatured?: boolean;
 
   @Column({ nullable: true, type: 'jsonb' })
   @ApiProperty()
   coordinates?: { longitude: string | number; latitude: string | number };
+
+  @ManyToOne(() => LocationType)
+  @JoinColumn({
+    name: 'locationTypeId',
+    referencedColumnName: 'id',
+  })
+  locationType?: LocationType[];
 
   constructor(input?: CreateLocationDto) {
     super();

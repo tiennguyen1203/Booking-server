@@ -13,7 +13,7 @@ export interface JwtBody {
   role: string;
 }
 
-export interface SignInResponse {
+export interface AuthResponse {
   user: User;
   accessToken: string;
 }
@@ -28,7 +28,9 @@ export class CustomerAuthService extends BaseAuthService {
     super(customerUserRepository);
   }
 
-  async signUp(signUpCredentialsDto: SignUpCredentialsDto) {
+  async signUp(
+    signUpCredentialsDto: SignUpCredentialsDto,
+  ): Promise<AuthResponse> {
     const user: User = await this.customerUserRepository.findOneByEmail(
       signUpCredentialsDto.email,
     );
@@ -53,12 +55,21 @@ export class CustomerAuthService extends BaseAuthService {
     await newUser.save();
 
     delete newUser.password;
-    return newUser;
+    const jwtBody: JwtBody = {
+      id: user.id,
+      email: user.email,
+      role: user.role,
+    };
+    const accessToken: string = this.jwtService.sign(jwtBody);
+    return {
+      user,
+      accessToken,
+    };
   }
 
   async signIn(
     signInCredentialsDto: SignInCredentialsDto,
-  ): Promise<SignInResponse> {
+  ): Promise<AuthResponse> {
     const user = await this.validateUser(signInCredentialsDto);
 
     const jwtBody: JwtBody = {
