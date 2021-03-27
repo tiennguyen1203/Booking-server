@@ -1,6 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { Column, Entity } from 'typeorm';
+import { Column, Entity, ManyToOne } from 'typeorm';
 import { CustomBaseEntity } from './base.entity';
+import { Location } from './location.entity';
 
 @Entity({ name: 'room' })
 export class Room extends CustomBaseEntity {
@@ -23,4 +24,7 @@ export class Room extends CustomBaseEntity {
   @Column()
   @ApiProperty()
   description: string;
+
+  @ManyToOne(() => Location)
+  location?: Location;
 }

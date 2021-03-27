@@ -17,6 +17,7 @@ import { CustomerLocationsService } from './locations.service';
       locationType: {
         allow: ['name', 'description'],
       },
+      rooms: {},
     },
   },
 })
