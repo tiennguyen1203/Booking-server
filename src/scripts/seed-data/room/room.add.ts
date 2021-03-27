@@ -45,11 +45,11 @@ export const addRooms = async (): Promise<void> => {
   }
 };
 
-const processData = async (): Promise<void> => {
-  await addRooms();
-};
+// const processData = async (): Promise<void> => {
+//   await addRooms();
+// };
 
-processData().then(() => {
-  console.log('Done !!!');
-  exit();
-});
+// processData().then(() => {
+//   console.log('Done !!!');
+//   exit();
+// });
