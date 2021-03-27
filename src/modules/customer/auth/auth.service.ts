@@ -56,13 +56,13 @@ export class CustomerAuthService extends BaseAuthService {
 
     delete newUser.password;
     const jwtBody: JwtBody = {
-      id: user.id,
-      email: user.email,
-      role: user.role,
+      id: newUser.id,
+      email: newUser.email,
+      role: newUser.role,
     };
     const accessToken: string = this.jwtService.sign(jwtBody);
     return {
-      user,
+      user: newUser,
       accessToken,
     };
   }

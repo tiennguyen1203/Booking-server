@@ -1,5 +1,4 @@
-import { exit } from 'process';
-import { createConnection } from 'typeorm';
+import { createConnection, getConnectionManager } from 'typeorm';
 import { Location, Room } from '../../../entities';
 // import locationData from '../Da_Nang_2021-02-15_18_43_16.json';
 import roomData from '../location_detail_file.json';
@@ -15,9 +14,11 @@ const getCapacity = (soLuongString: string): number | null => {
 };
 
 export const addRooms = async (): Promise<void> => {
-  console.log('>> Creating connection');
-  await createConnection('default');
-  console.log('>> Created connection succeeded');
+  const connectionManager = getConnectionManager();
+  if (!connectionManager.has('default')) {
+    // ? load connection options from ormconfig or environment
+    await createConnection('default');
+  }
 
   for (const room of roomData) {
     const location = await Location.findOne({
