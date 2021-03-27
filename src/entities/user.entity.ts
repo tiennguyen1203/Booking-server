@@ -12,6 +12,9 @@ export class User extends CustomBaseEntity {
   password: string;
 
   @Column()
+  fullName: string;
+
+  @Column()
   address: string;
 
   @Column()
