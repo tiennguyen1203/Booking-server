@@ -4,6 +4,7 @@ import { addLocations } from './location';
 import { addLocationTypes } from './location-type/';
 import { addServices } from './service';
 import { addServiceTypes } from './service-type';
+import { addRooms } from './room';
 
 const processData = async () => {
   await createConnection('default');
@@ -12,6 +13,7 @@ const processData = async () => {
   await addFacilities();
   await addServiceTypes();
   await addServices();
+  await addRooms();
 };
 
 processData().then(() => {
