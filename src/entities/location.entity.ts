@@ -1,9 +1,10 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsDefined, IsOptional } from 'class-validator';
-import { Column, Entity, JoinColumn, ManyToOne } from 'typeorm';
+import { IsOptional } from 'class-validator';
+import { Column, Entity, JoinColumn, ManyToOne, OneToMany } from 'typeorm';
 import { CreateLocationDto } from '../dto/location/create-location.dto';
 import { CustomBaseEntity } from './base.entity';
 import { LocationType } from './location-type.entity';
+import { Room } from './room.entity';
 
 @Entity({ name: 'location' })
 export class Location extends CustomBaseEntity {
@@ -73,7 +74,10 @@ export class Location extends CustomBaseEntity {
     name: 'locationTypeId',
     referencedColumnName: 'id',
   })
-  locationType?: LocationType[];
+  locationType?: LocationType;
+
+  @OneToMany(() => Room, (room) => room.location)
+  rooms?: Room[];
 
   constructor(input?: CreateLocationDto) {
     super();

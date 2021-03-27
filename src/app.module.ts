@@ -9,6 +9,7 @@ import { CustomerUsersModule } from './modules/customer/users/users.module';
 import { LocationsModule as SuperAdminLocationsModule } from './modules/super-admin/locations/locations.module';
 import { CustomerFacilitiesModule } from './modules/customer/facilities/facilities.module';
 import { CustomerLocationsModule } from './modules/customer/locations/locations.module';
+import { CustomerRoomsModule } from './modules/customer/rooms/rooms.module';
 
 @Module({
   imports: [
@@ -26,6 +27,8 @@ import { CustomerLocationsModule } from './modules/customer/locations/locations.
     CustomerFacilitiesModule,
 
     CustomerLocationsModule,
+
+    CustomerRoomsModule,
   ],
 })
 export class AppModule {}
