@@ -16,6 +16,7 @@ export interface JwtBody {
 export interface AuthResponse {
   user: User;
   accessToken: string;
+  success: boolean;
 }
 
 @Injectable()
@@ -64,6 +65,7 @@ export class CustomerAuthService extends BaseAuthService {
     return {
       user: newUser,
       accessToken,
+      success: true,
     };
   }
 
@@ -83,6 +85,7 @@ export class CustomerAuthService extends BaseAuthService {
     return {
       user,
       accessToken,
+      success: true,
     };
   }
 }
