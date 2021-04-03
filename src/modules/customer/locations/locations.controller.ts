@@ -18,6 +18,15 @@ import { CustomerLocationsService } from './locations.service';
         allow: ['name', 'description'],
       },
       rooms: {},
+      city: {
+        allow: [
+          'name',
+          'description',
+          'thumbnail',
+          'totalLocations',
+          'averagePrice',
+        ],
+      },
     },
   },
   params: {

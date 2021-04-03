@@ -10,11 +10,14 @@ import { LocationsModule as SuperAdminLocationsModule } from './modules/super-ad
 import { CustomerFacilitiesModule } from './modules/customer/facilities/facilities.module';
 import { CustomerLocationsModule } from './modules/customer/locations/locations.module';
 import { CustomerRoomsModule } from './modules/customer/rooms/rooms.module';
+import { AppController } from './app.controller';
+import { AppService } from './app.service';
+import { BaseCityRepository } from './modules/base/cities/city.repository';
 
 @Module({
   imports: [
     TypeOrmModule.forRoot(configService.getTypeOrmConfig()),
-    TypeOrmModule.forFeature([BaseLocationTypeRepository]),
+    TypeOrmModule.forFeature([BaseLocationTypeRepository, BaseCityRepository]),
 
     CustomerUsersModule,
     CustomerAuthModule,
@@ -30,5 +33,7 @@ import { CustomerRoomsModule } from './modules/customer/rooms/rooms.module';
 
     CustomerRoomsModule,
   ],
+  controllers: [AppController],
+  providers: [AppService],
 })
 export class AppModule {}
