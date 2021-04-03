@@ -1,0 +1,32 @@
+[
+  {
+    "name": "Đà Nẵng",
+    "totalLocations": 500,
+    "thumbnail": "https://cf.bstatic.com/xdata/images/city/540x270/688843.webp?k=cf7302d43a44850ddf8509da48c3198d4dda0aa75832b5737cc241249bf394aa&o=",
+    "averagePrice": "VND 1142196"
+  },
+  {
+    "name": "Đà Lạt",
+    "totalLocations": 400,
+    "thumbnail": "https://cf.bstatic.com/xdata/images/city/540x270/688828.webp?k=6ff2042e10f68221007161a36c476226806abfe0a511a9104d45263cc0cedf55&o=",
+    "averagePrice": "VND 632075"
+  },
+  {
+    "name": "Hồ Chí Minh",
+    "totalLocations": 2000,
+    "thumbnail": "https://cf.bstatic.com/xdata/images/city/540x270/688892.webp?k=ab98c6d1cae80333bbd3129cfeb692f9fd1b17caa359d2fb4fdf35a4160e5ccf&o=",
+    "averagePrice": "VND 868813"
+  },
+  {
+    "name": "Hội An",
+    "totalLocations": 400,
+    "thumbnail": "https://cf.bstatic.com/xdata/images/city/540x270/688864.webp?k=8bb91fdac1606b7b219eb65b9b2ee6b275a5ed1bfc192dcdcf1191a86a5bcc71&o=",
+    "averagePrice": "VND 905499"
+  },
+  {
+    "name": "Nha Trang",
+    "totalLocations": 800,
+    "thumbnail": "https://cf.bstatic.com/xdata/images/city/540x270/688906.webp?k=6b660c5d295f53392879d35893e48b7cf96be8311cca62eb903eaaed02090ad2&o=",
+    "averagePrice": "VND 749765"
+  }
+]
