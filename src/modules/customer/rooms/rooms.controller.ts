@@ -14,6 +14,9 @@ import { CustomerRoomsService } from './rooms.service';
     limit: 10,
     alwaysPaginate: true,
   },
+  params: {
+    id: { type: 'uuid', primary: true, field: 'id' },
+  },
 })
 @Controller('customer/rooms')
 export class CustomerRoomsController implements CrudController<Room> {

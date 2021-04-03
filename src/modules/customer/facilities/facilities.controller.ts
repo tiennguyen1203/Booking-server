@@ -14,6 +14,9 @@ import { FacilitiesService } from './facilities.service';
     limit: 10,
     alwaysPaginate: true,
   },
+  params: {
+    id: { type: 'uuid', primary: true, field: 'id' },
+  },
 })
 @Controller('customer/facilities')
 export class FacilitiesController implements CrudController<Facility> {
