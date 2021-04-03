@@ -17,6 +17,9 @@ import { SuperAdminLocationsService } from './locations.service';
   dto: {
     create: CreateLocationDto,
   },
+  params: {
+    id: { type: 'uuid', primary: true, field: 'id' },
+  },
 })
 @Controller('super-admin/locations')
 @UseGuards(AuthGuard())

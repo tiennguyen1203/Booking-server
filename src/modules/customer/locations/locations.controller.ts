@@ -20,6 +20,9 @@ import { CustomerLocationsService } from './locations.service';
       rooms: {},
     },
   },
+  params: {
+    id: { type: 'uuid', primary: true, field: 'id' },
+  },
 })
 @Controller('customer/locations')
 export class CustomerLocationsController implements CrudController<Location> {
