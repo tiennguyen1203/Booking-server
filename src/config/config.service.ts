@@ -46,11 +46,15 @@ class ConfigService {
 
       keepConnectionAlive: true,
 
-      ssl: this.isProduction()
-        ? {
-            rejectUnauthorized: false,
-          }
-        : null,
+      // ssl: this.isProduction()
+      //   ? {
+      //       rejectUnauthorized: false,
+      //     }
+      //   : null,
+
+      ssl: {
+        rejectUnauthorized: false,
+      },
     };
   }
 

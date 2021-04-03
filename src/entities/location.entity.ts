@@ -3,6 +3,7 @@ import { IsOptional } from 'class-validator';
 import { Column, Entity, JoinColumn, ManyToOne, OneToMany } from 'typeorm';
 import { CreateLocationDto } from '../dto/location/create-location.dto';
 import { CustomBaseEntity } from './base.entity';
+import { City } from './city.entity';
 import { LocationType } from './location-type.entity';
 import { Room } from './room.entity';
 
@@ -24,10 +25,6 @@ export class Location extends CustomBaseEntity {
   @ApiProperty({ required: false })
   @IsOptional()
   address?: string;
-
-  @Column()
-  @ApiProperty()
-  city?: string;
 
   @Column({ type: 'geometry' })
   @ApiProperty()
@@ -78,6 +75,13 @@ export class Location extends CustomBaseEntity {
 
   @OneToMany(() => Room, (room) => room.location)
   rooms?: Room[];
+
+  @ManyToOne(() => City)
+  @JoinColumn({
+    name: 'cityId',
+    referencedColumnName: 'id',
+  })
+  city?: City;
 
   constructor(input?: CreateLocationDto) {
     super();
