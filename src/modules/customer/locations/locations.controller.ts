@@ -27,6 +27,7 @@ import { CustomerLocationsService } from './locations.service';
           'averagePrice',
         ],
       },
+      serviceTypes: {},
     },
   },
   params: {
