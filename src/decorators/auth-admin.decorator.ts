@@ -21,7 +21,7 @@ export const AuthAdmin = createParamDecorator(
       throw new UnauthorizedException('Username or password is incorrect');
     }
 
-    if (req.user?.role !== Role.LOCATIONS_OWNER) {
+    if (req.user?.role !== Role.ADMIN) {
       throw new ForbiddenException('Only allow Admin (Locations Owner) role');
     }
 
