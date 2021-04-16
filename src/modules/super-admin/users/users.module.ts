@@ -5,12 +5,16 @@ import { jwtConfig } from '../../../config/config.service';
 import { SuperAdminUserRepository } from './user.repository';
 import { SuperAdminUsersController } from './users.controller';
 import { SuperAdminUsersService } from './users.service';
+import { BaseLocationRepository } from '../../base/locations/location.repository';
 
 @Module({
   controllers: [SuperAdminUsersController],
   providers: [SuperAdminUsersService],
   imports: [
-    TypeOrmModule.forFeature([SuperAdminUserRepository]),
+    TypeOrmModule.forFeature([
+      SuperAdminUserRepository,
+      BaseLocationRepository,
+    ]),
     JwtModule.register({
       secret: jwtConfig.accessSecret,
       signOptions: { expiresIn: 3600 },

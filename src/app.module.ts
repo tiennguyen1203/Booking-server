@@ -3,6 +3,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { configService } from './config/config.service';
+import { AdminAuthModule } from './modules/admin/auth/auth.module';
 import { AdminLocationTypesModule } from './modules/admin/location-types/location-types.module';
 import { AdminLocationsModule } from './modules/admin/locations/locations.module';
 import { BaseCityRepository } from './modules/base/cities/city.repository';
@@ -29,6 +30,7 @@ import { SuperAdminUsersModule } from './modules/super-admin/users/users.module'
 
     AdminLocationsModule,
     AdminLocationTypesModule,
+    AdminAuthModule,
 
     SuperAdminLocationsModule,
     SuperAdminUsersModule,

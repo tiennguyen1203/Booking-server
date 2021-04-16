@@ -79,6 +79,10 @@ export class Location extends CustomBaseEntity {
   @ApiProperty()
   cityId: string;
 
+  @Column()
+  @ApiProperty()
+  userId: string;
+
   @ManyToOne(() => LocationType)
   @JoinColumn({
     name: 'locationTypeId',

@@ -1,5 +1,4 @@
-import { IsEmail, IsEnum, IsNotEmpty, IsString } from 'class-validator';
-import { Role } from '../../../../constant';
+import { IsEmail, IsNotEmpty, IsString, IsUUID } from 'class-validator';
 
 export class CreateUserDto {
   @IsEmail()
@@ -12,10 +11,9 @@ export class CreateUserDto {
 
   @IsString()
   @IsNotEmpty()
-  @IsEnum(Role)
-  role: Role;
-
-  @IsString()
-  @IsNotEmpty()
   fullName: string;
+
+  @IsUUID()
+  @IsNotEmpty()
+  locationId: string;
 }
