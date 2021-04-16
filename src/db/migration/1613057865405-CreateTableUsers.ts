@@ -28,7 +28,7 @@ export class CreateTableUsers1613057865405 implements MigrationInterface {
           {
             name: 'role',
             type: 'enum',
-            enum: [Role.SUPER_ADMIN, Role.LOCATIONS_OWNER, Role.CUSTOMER],
+            enum: [Role.SUPER_ADMIN, Role.ADMIN, Role.CUSTOMER],
             default: `'${Role.CUSTOMER}'`,
             enumName: 'role',
             isNullable: false,
