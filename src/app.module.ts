@@ -16,6 +16,7 @@ import { CustomerUsersModule } from './modules/customer/users/users.module';
 import { SuperAdminAuthModule } from './modules/super-admin/auth/auth.module';
 import { LocationsModule as SuperAdminLocationsModule } from './modules/super-admin/locations/locations.module';
 import { SuperAdminUsersModule } from './modules/super-admin/users/users.module';
+import { UsersModule } from './modules/admin/users/users.module';
 
 @Module({
   imports: [
@@ -35,6 +36,7 @@ import { SuperAdminUsersModule } from './modules/super-admin/users/users.module'
     SuperAdminLocationsModule,
     SuperAdminUsersModule,
     SuperAdminAuthModule,
+    UsersModule,
   ],
   controllers: [AppController],
   providers: [AppService],
