@@ -4,7 +4,7 @@ import { passportModule } from './../auth/auth.module';
 import { CustomerLocationRepository } from './location.repository';
 import { CustomerLocationsController } from './locations.controller';
 import { CustomerLocationsService } from './locations.service';
-import { BookingHistoryRepository } from '../../base/locations/booking-history.repository';
+import { BookingRepository } from '../../base/locations/booking.repository';
 import { BaseRoomRepository } from '../../base/rooms/room.repository';
 
 @Module({
@@ -14,7 +14,7 @@ import { BaseRoomRepository } from '../../base/rooms/room.repository';
     passportModule,
     TypeOrmModule.forFeature([
       CustomerLocationRepository,
-      BookingHistoryRepository,
+      BookingRepository,
       BaseRoomRepository,
     ]),
   ],

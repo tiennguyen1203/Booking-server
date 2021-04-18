@@ -7,7 +7,7 @@ import { User } from './user.entity';
 import { Room } from './room.entity';
 import { City } from './city.entity';
 import { LocationServiceType } from './location-service-type.entity';
-import { BookingHistory } from './booking-history.entity';
+import { Booking } from './booking.entity';
 
 export {
   LocationType,
@@ -19,5 +19,5 @@ export {
   Room,
   City,
   LocationServiceType,
-  BookingHistory,
+  Booking,
 };
