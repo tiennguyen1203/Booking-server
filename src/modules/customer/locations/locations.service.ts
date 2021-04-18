@@ -6,17 +6,17 @@ import {
 import { TypeOrmCrudService } from '@nestjsx/crud-typeorm';
 import { Location } from '../../../entities';
 import { BaseRoomRepository } from '../../../modules/base/rooms/room.repository';
-import { BookingHistoryRepository } from '../../base/locations/booking-history.repository';
+import { BookingRepository } from '../../base/locations/booking.repository';
 import { GetLocationBookingsDto, BookingDto } from './dto/booking.dto';
 import { CustomerLocationRepository } from './location.repository';
 import { Room } from '../../../entities/room.entity';
-import { BookingHistory } from '../../../entities/booking-history.entity';
+import { Booking } from '../../../entities/booking.entity';
 
 @Injectable()
 export class CustomerLocationsService extends TypeOrmCrudService<Location> {
   constructor(
     private readonly customerLocationRepository: CustomerLocationRepository,
-    private readonly bookingHistoryRepository: BookingHistoryRepository,
+    private readonly bookingRepository: BookingRepository,
     private readonly baseRoomRepository: BaseRoomRepository,
   ) {
     super(customerLocationRepository);
@@ -31,12 +31,12 @@ export class CustomerLocationsService extends TypeOrmCrudService<Location> {
   ) {
     // this.baseRoomRepository.createQueryBuilder('room').leftJoinAndSelect('')
     // this.baseRoomRepository.
-    const rooms: Room[] = await this.bookingHistoryRepository.query(
+    const rooms: Room[] = await this.bookingRepository.query(
       `
         SELECT * FROM room
         WHERE "locationId" = '${locationId}'
         AND id NOT IN (
-          SELECT "roomId" FROM booking_history
+          SELECT "roomId" FROM booking
           WHERE "locationId" = '${locationId}'
           AND (
             ("startTime" <= TIMESTAMP WITH TIME ZONE '${inputStartTime}' AND "endTime" >= TIMESTAMP WITH TIME ZONE '${inputStartTime}')
@@ -48,7 +48,6 @@ export class CustomerLocationsService extends TypeOrmCrudService<Location> {
       `,
     );
 
-    console.log(rooms);
     return rooms;
   }
 
@@ -60,7 +59,7 @@ export class CustomerLocationsService extends TypeOrmCrudService<Location> {
     locationId: string;
     bookingDto: BookingDto;
     userId: string;
-  }): Promise<BookingHistory> {
+  }): Promise<Booking> {
     const existRoom = await this.baseRoomRepository.findOne({
       where: { locationId, id: roomId },
     });
@@ -68,9 +67,9 @@ export class CustomerLocationsService extends TypeOrmCrudService<Location> {
       throw new NotFoundException('Room not found');
     }
 
-    const bookingHistory: BookingHistory[] = await this.bookingHistoryRepository.query(
+    const bookings: Booking[] = await this.bookingRepository.query(
       `
-        SELECT * FROM "booking_history"
+        SELECT * FROM "booking"
         WHERE "roomId" = '${roomId}'
         AND (
           ("startTime" <= TIMESTAMP WITH TIME ZONE '${inputStartTime}' AND "endTime" >= TIMESTAMP WITH TIME ZONE '${inputStartTime}')
@@ -80,17 +79,17 @@ export class CustomerLocationsService extends TypeOrmCrudService<Location> {
         )
       `,
     );
-    if (bookingHistory?.length) {
+    if (bookings?.length) {
       throw new BadRequestException('Room is not available');
     }
-    const newBookingHistory = this.bookingHistoryRepository.create();
-    newBookingHistory.roomId = roomId;
-    newBookingHistory.locationId = locationId;
-    newBookingHistory.startTime = inputStartTime;
-    newBookingHistory.endTime = inputEndTime;
-    newBookingHistory.userId = userId;
-    await newBookingHistory.save();
+    const newBooking = this.bookingRepository.create();
+    newBooking.roomId = roomId;
+    newBooking.locationId = locationId;
+    newBooking.startTime = inputStartTime;
+    newBooking.endTime = inputEndTime;
+    newBooking.userId = userId;
+    await newBooking.save();
 
-    return newBookingHistory;
+    return newBooking;
   }
 }
