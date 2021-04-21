@@ -17,7 +17,7 @@ import { BaseLocationRepository } from '../../base/locations/location.repository
     ]),
     JwtModule.register({
       secret: jwtConfig.accessSecret,
-      signOptions: { expiresIn: 3600 },
+      signOptions: { expiresIn: 3600 * 24 * 1000 },
     }),
   ],
 })
