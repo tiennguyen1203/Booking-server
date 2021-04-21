@@ -19,7 +19,7 @@ export const passportModule = PassportModule.register({
     PassportModule,
     JwtModule.register({
       secret: jwtConfig.accessSecret,
-      signOptions: { expiresIn: 3600 },
+      signOptions: { expiresIn: 3600 * 24 * 1000 },
     }),
     passportModule,
   ],
