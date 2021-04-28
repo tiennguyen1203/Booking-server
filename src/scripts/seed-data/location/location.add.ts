@@ -38,16 +38,6 @@ const insertLocation = async (location, locationTypes: LocationType[]) => {
     const locationScore = parseFloat(location.score.replace(',', '.')) || 0;
 
     newLocation.score = locationScore;
-    newLocation.geoLocation = {
-      type: 'Point',
-      coordinates: [location.details.longitude, location.details.latitude],
-      crs: {
-        type: 'name',
-        properties: {
-          name: 'urn:ogc:def:crs:EPSG::4326',
-        },
-      },
-    };
     newLocation.coordinates = {
       longitude: location.details.longitude,
       latitude: location.details.latitude,
