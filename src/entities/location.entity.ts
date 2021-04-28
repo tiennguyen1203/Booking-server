@@ -35,10 +35,6 @@ export class Location extends CustomBaseEntity {
   @IsOptional()
   address?: string;
 
-  @Column({ type: 'geometry' })
-  @ApiProperty()
-  geoLocation?: any;
-
   @Column({ type: 'jsonb' })
   @ApiProperty()
   workingTime?: any;
