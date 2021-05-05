@@ -3,3 +3,9 @@ export enum Role {
   ADMIN = 'admin',
   CUSTOMER = 'customer',
 }
+
+export enum BookingStatus {
+  PENDING = 'PENDING',
+  ACCEPTED = 'ACCEPTED',
+  REJECTED = 'REJECTED',
+}
