@@ -2,8 +2,8 @@ import { ApiProperty } from '@nestjs/swagger';
 import { Column, Entity } from 'typeorm';
 import { CustomBaseEntity } from './base.entity';
 
-@Entity({ name: 'booking' })
-export class Booking extends CustomBaseEntity {
+@Entity({ name: 'booking_history' })
+export class BookingHistory extends CustomBaseEntity {
   @Column()
   @ApiProperty()
   locationId: string;
@@ -14,17 +14,17 @@ export class Booking extends CustomBaseEntity {
 
   @Column()
   @ApiProperty()
-  userId: string;
+  bookingId: string;
 
   @Column()
   @ApiProperty()
-  status: string;
+  accepterId: string;
 
   @Column()
   @ApiProperty()
-  startTime: string;
+  previousStatus: string;
 
   @Column()
   @ApiProperty()
-  endTime: string;
+  currentStatus: string;
 }
