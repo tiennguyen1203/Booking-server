@@ -11,6 +11,10 @@ import { GetLocationBookingsDto, BookingDto } from './dto/booking.dto';
 import { CustomerLocationRepository } from './location.repository';
 import { Room } from '../../../entities/room.entity';
 import { Booking } from '../../../entities/booking.entity';
+import { sendEmailNotifyBookingSuccessfulForSender } from '../../../utils/email-service';
+import { sendEmailNotifyBookingSuccessfulForOwner } from '../../../utils/email-service/email-notify-booking-successful-for-owner';
+import { BaseUserRepository } from '../../base/user/user.repository';
+import { BaseBookingHistoryRepository } from '../../base/booking-histories/booking-history.repository';
 
 @Injectable()
 export class CustomerLocationsService extends TypeOrmCrudService<Location> {
@@ -18,6 +22,8 @@ export class CustomerLocationsService extends TypeOrmCrudService<Location> {
     private readonly customerLocationRepository: CustomerLocationRepository,
     private readonly bookingRepository: BookingRepository,
     private readonly baseRoomRepository: BaseRoomRepository,
+    private readonly baseUserRepository: BaseUserRepository,
+    private readonly baseBookingHistoryRepository: BaseBookingHistoryRepository,
   ) {
     super(customerLocationRepository);
   }
@@ -29,8 +35,6 @@ export class CustomerLocationsService extends TypeOrmCrudService<Location> {
       endTime: inputEndTime,
     }: GetLocationBookingsDto,
   ) {
-    // this.baseRoomRepository.createQueryBuilder('room').leftJoinAndSelect('')
-    // this.baseRoomRepository.
     const rooms: Room[] = await this.bookingRepository.query(
       `
         SELECT * FROM room
@@ -55,11 +59,22 @@ export class CustomerLocationsService extends TypeOrmCrudService<Location> {
     locationId,
     bookingDto: { roomId, startTime: inputStartTime, endTime: inputEndTime },
     userId,
+    userEmail,
   }: {
     locationId: string;
     bookingDto: BookingDto;
     userId: string;
+    userEmail: string;
   }): Promise<Booking> {
+    const hasOwner = await this.customerLocationRepository.findOne(locationId);
+    if (!hasOwner.userId) {
+      throw new BadRequestException('This location has no owner');
+    }
+    const owner = await this.baseUserRepository.findOne(hasOwner.userId);
+    if (!owner) {
+      throw new BadRequestException('This location has no owner');
+    }
+
     const existRoom = await this.baseRoomRepository.findOne({
       where: { locationId, id: roomId },
     });
@@ -90,6 +105,20 @@ export class CustomerLocationsService extends TypeOrmCrudService<Location> {
     newBooking.userId = userId;
     await newBooking.save();
 
+    await this.baseBookingHistoryRepository.save({
+      previousStatus: null,
+      bookingId: newBooking.id,
+      currentStatus: newBooking.status,
+      locationId,
+      roomId,
+    });
+
+    await sendEmailNotifyBookingSuccessfulForSender({
+      receiverEmail: userEmail,
+    });
+    await sendEmailNotifyBookingSuccessfulForOwner({
+      receiverEmail: owner.email,
+    });
     return newBooking;
   }
 }

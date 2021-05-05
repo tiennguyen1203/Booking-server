@@ -63,7 +63,12 @@ export class CustomerLocationsController
     @Param('id') locationId: string,
     @Body() bookingDto: BookingDto,
   ) {
-    return this.service.booking({ locationId, bookingDto, userId: user.id });
+    return this.service.booking({
+      locationId,
+      bookingDto,
+      userId: user.id,
+      userEmail: user.email,
+    });
   }
 
   @Get(':id/bookings')
