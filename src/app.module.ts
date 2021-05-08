@@ -18,6 +18,7 @@ import { LocationsModule as SuperAdminLocationsModule } from './modules/super-ad
 import { SuperAdminUsersModule } from './modules/super-admin/users/users.module';
 import { UsersModule } from './modules/admin/users/users.module';
 import { AdminBookingsModule } from './modules/admin/bookings/bookings.module';
+import { BookingHistoriesModule } from './modules/customer/booking-histories/booking-histories.module';
 
 @Module({
   imports: [
@@ -39,6 +40,7 @@ import { AdminBookingsModule } from './modules/admin/bookings/bookings.module';
     SuperAdminUsersModule,
     SuperAdminAuthModule,
     UsersModule,
+    BookingHistoriesModule,
   ],
   controllers: [AppController],
   providers: [AppService],
