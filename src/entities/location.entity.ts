@@ -79,17 +79,17 @@ export class Location extends CustomBaseEntity {
   @ApiProperty()
   userId: string;
 
-  @ManyToOne(() => LocationType)
+  @ManyToOne(() => LocationType, { eager: true })
   @JoinColumn({
     name: 'locationTypeId',
     referencedColumnName: 'id',
   })
   locationType?: LocationType;
 
-  @OneToMany(() => Room, (room) => room.location)
+  @OneToMany(() => Room, (room) => room.location, { eager: true })
   rooms?: Room[];
 
-  @ManyToOne(() => City)
+  @ManyToOne(() => City, { eager: true })
   @JoinColumn({
     name: 'cityId',
     referencedColumnName: 'id',

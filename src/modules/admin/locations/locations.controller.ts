@@ -1,12 +1,28 @@
-import { Controller, Get, Query } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  ForbiddenException,
+  Get,
+  Param,
+  Put,
+  Query,
+  UseGuards,
+  UsePipes,
+  ValidationPipe,
+} from '@nestjs/common';
+import { AuthGuard } from '@nestjs/passport';
 import { ApiCreatedResponse } from '@nestjs/swagger';
+import { AuthAdmin } from '../../../decorators/auth-admin.decorator';
 import { QueryDto } from '../../../dto';
-import { Pagination } from '../../../paginate';
-import { getLocationsResponse } from '../../../swagger';
+import { UpdateLocationDto } from '../../../dto/location/update-location.dto';
 import { Location } from '../../../entities/location.entity';
+import { Pagination } from '../../../paginate';
 import { QueryParamsPipe } from '../../../pipes';
+import { getLocationsResponse } from '../../../swagger';
+import { AdminJwtBody } from '../auth/interfaces';
 import { AdminLocationsService } from './locations.service';
 
+@UseGuards(AuthGuard())
 @Controller('admin/locations')
 export class AdminLocationsController {
   constructor(private adminLocationsService: AdminLocationsService) {}
@@ -17,5 +33,23 @@ export class AdminLocationsController {
     @Query(QueryParamsPipe) queryDto: QueryDto,
   ): Promise<Pagination<Location>> {
     return this.adminLocationsService.getLocations(queryDto);
+  }
+
+  @Put('/:id')
+  @UseGuards(AuthGuard('jwt'))
+  @UsePipes(new ValidationPipe())
+  updateLocation(
+    @AuthAdmin() { location: { id: ownLocationId } }: AdminJwtBody,
+    @Body() updateLocationDto: UpdateLocationDto,
+    @Param('id') locationId: string,
+  ): Promise<Location> {
+    if (locationId !== ownLocationId) {
+      throw new ForbiddenException('Permission denied');
+    }
+
+    return this.adminLocationsService.updateLocation({
+      locationId,
+      updateLocationDto,
+    });
   }
 }
