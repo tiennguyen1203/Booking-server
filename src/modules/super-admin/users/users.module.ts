@@ -6,6 +6,7 @@ import { SuperAdminUserRepository } from './user.repository';
 import { SuperAdminUsersController } from './users.controller';
 import { SuperAdminUsersService } from './users.service';
 import { BaseLocationRepository } from '../../base/locations/location.repository';
+import { BaseLocationTypeRepository } from '../../../modules/base/location-types/location-type.repository';
 
 @Module({
   controllers: [SuperAdminUsersController],
@@ -14,6 +15,7 @@ import { BaseLocationRepository } from '../../base/locations/location.repository
     TypeOrmModule.forFeature([
       SuperAdminUserRepository,
       BaseLocationRepository,
+      BaseLocationTypeRepository,
     ]),
     JwtModule.register({
       secret: jwtConfig.accessSecret,

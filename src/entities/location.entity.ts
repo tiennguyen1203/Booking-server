@@ -73,7 +73,7 @@ export class Location extends CustomBaseEntity {
 
   @Column()
   @ApiProperty()
-  cityId: string;
+  cityId?: string;
 
   @Column()
   @ApiProperty()
