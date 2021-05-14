@@ -6,7 +6,9 @@ import {
 import { JwtService } from '@nestjs/jwt';
 import { v4 as uuid } from 'uuid';
 import { Role } from '../../../constant';
+import { Location } from '../../../entities';
 import { User } from '../../../entities/user.entity';
+import { BaseLocationTypeRepository } from '../../../modules/base/location-types/location-type.repository';
 import { BaseUsersService } from '../../../modules/base/user/users.service';
 import { JwtBody } from '../../../modules/customer/auth/auth.service';
 import PasswordServices from '../../../services/service.password';
@@ -21,6 +23,7 @@ export class SuperAdminUsersService extends BaseUsersService {
   constructor(
     private readonly superAdminUserRepository: SuperAdminUserRepository,
     private readonly baseLocationRepository: BaseLocationRepository,
+    private readonly baseLocationTypeRepository: BaseLocationTypeRepository,
     private readonly jwtService: JwtService,
   ) {
     super(superAdminUserRepository);
@@ -31,27 +34,33 @@ export class SuperAdminUsersService extends BaseUsersService {
     const existUser = await this.superAdminUserRepository.findOneByEmail(
       createUserDto.email,
     );
+
     if (existUser) {
       throw new BadRequestException('User already exist');
     }
 
-    const location = await this.baseLocationRepository.findOne(
-      createUserDto.locationId,
-    );
-    if (!location) {
-      throw new NotFoundException('Location not found');
-    }
-    if (location.userId) {
-      throw new BadRequestException('Location is managed by 1 user only');
+    let location: Location;
+    if (createUserDto.locationId) {
+      location = await this.baseLocationRepository.findOne(
+        createUserDto.locationId,
+      );
+      if (!location) {
+        throw new NotFoundException('Location not found');
+      }
+      if (location.userId) {
+        throw new BadRequestException('Location is managed by 1 user only');
+      }
+    } else {
+      const locationTypes = await this.baseLocationTypeRepository.find();
+      location = new Location();
+      location.name = createUserDto.fullName;
+      location.locationTypeId = locationTypes[0].id;
+      location.id = uuid();
     }
 
     const userId = uuid();
     location.userId = userId;
-    await this.baseLocationRepository.save({
-      id: createUserDto.locationId,
-      userId,
-    });
-
+    await location.save();
     const newUser = new User();
     newUser.id = userId;
     newUser.fullName = createUserDto.fullName;
