@@ -18,4 +18,8 @@ export class QueryDto implements PaginationOptionsInterface {
   @Min(0)
   @ApiPropertyOptional()
   skip: number;
+
+  @IsOptional()
+  @ApiPropertyOptional()
+  order?: string;
 }

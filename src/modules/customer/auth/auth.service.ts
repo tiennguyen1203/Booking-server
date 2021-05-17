@@ -1,6 +1,7 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { InjectRepository } from '@nestjs/typeorm';
+import { Role } from '../../../constant';
 import { SignInCredentialsDto } from 'src/dto/auth/sign-in-credentials.dto';
 import { SignUpCredentialsDto } from 'src/dto/auth/sign-up-credentials.dto';
 import { User } from '../../../entities';
@@ -59,7 +60,7 @@ export class CustomerAuthService extends BaseAuthService {
     const jwtBody: JwtBody = {
       id: newUser.id,
       email: newUser.email,
-      role: newUser.role,
+      role: newUser.role || Role.CUSTOMER,
     };
     const accessToken: string = this.jwtService.sign(jwtBody);
     return {
