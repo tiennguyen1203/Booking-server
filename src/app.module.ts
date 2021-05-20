@@ -19,6 +19,7 @@ import { SuperAdminUsersModule } from './modules/super-admin/users/users.module'
 import { UsersModule } from './modules/admin/users/users.module';
 import { AdminBookingsModule } from './modules/admin/bookings/bookings.module';
 import { BookingHistoriesModule } from './modules/customer/booking-histories/booking-histories.module';
+import { RoomModule } from './modules/admin/room/room.module';
 
 @Module({
   imports: [
@@ -41,6 +42,7 @@ import { BookingHistoriesModule } from './modules/customer/booking-histories/boo
     SuperAdminAuthModule,
     UsersModule,
     BookingHistoriesModule,
+    RoomModule,
   ],
   controllers: [AppController],
   providers: [AppService],
