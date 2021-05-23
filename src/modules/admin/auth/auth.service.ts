@@ -34,7 +34,9 @@ export class AdminAuthService extends BaseAuthService {
       id: user.id,
       email: user.email,
       role: user.role,
-      location,
+      location: {
+        id: location.id,
+      },
     };
 
     const accessToken: string = this.jwtService.sign(jwtBody);

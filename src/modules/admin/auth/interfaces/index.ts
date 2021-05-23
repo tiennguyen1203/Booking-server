@@ -1,8 +1,9 @@
-import { Location } from '../../../../entities';
 import { User } from '../../../../entities/user.entity';
 
 export interface AdminJwtBody extends JwtBody {
-  location: Location;
+  location: {
+    id: string;
+  };
 }
 
 export interface JwtBody {
