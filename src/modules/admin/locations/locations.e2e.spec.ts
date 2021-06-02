@@ -1,12 +1,14 @@
 import { INestApplication } from '@nestjs/common';
 import { Test } from '@nestjs/testing';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { BaseLocationRepository } from '../../../modules/base/locations/location.repository';
 import { default as request } from 'supertest';
-import { configService } from '../../../config/config.service';
-import { AdminLocationsModule } from './locations.module';
+// import { AdminLocationsModule } from './locations.module';
 import { Connection } from 'typeorm';
-import { Location, LocationType } from '../../../entities';
+import { configService } from '../../../config/config.service';
+import { BaseLocationRepository } from '../../../modules/base/locations/location.repository';
+import { CustomerLocationsModule } from '../../customer/locations/locations.module';
+import { LocationType } from '../../../entities/location-type.entity';
+import { Location } from '../../../entities/location.entity';
 
 describe('Locations', () => {
   let app: INestApplication;
@@ -14,14 +16,15 @@ describe('Locations', () => {
   beforeAll(async () => {
     const moduleRef = await Test.createTestingModule({
       imports: [
-        AdminLocationsModule,
+        // AdminLocationsModule,
+        CustomerLocationsModule,
         TypeOrmModule.forRoot(configService.getTypeOrmConfigTestEnv()),
         BaseLocationRepository,
       ],
     }).compile();
 
     app = moduleRef.createNestApplication();
-    app.enableShutdownHooks();
+    // app.enableShutdownHooks();
     await app.init();
     connection = app.get(Connection);
   });
@@ -47,13 +50,14 @@ describe('Locations', () => {
       },
     ]);
 
-    const response = await request(app.getHttpServer()).get('/admin/locations');
+    const response = await request(app.getHttpServer()).get(
+      '/customer/locations',
+    );
     const result = JSON.parse(response.text);
 
-    expect(result.page_total).toEqual(2);
     expect(result.total).toEqual(2);
 
-    expect(result.results[0]).toMatchObject({
+    expect(result.data[0]).toMatchObject({
       name: 'location 1',
       locationTypeId: '00000000-0000-0000-0000-000000000000',
     });

@@ -2,7 +2,7 @@ import { MigrationInterface, QueryRunner, Table } from 'typeorm';
 
 export class CreateTableLocation1612363821886 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
-    await queryRunner.query('CREATE EXTENSION IF NOT EXISTS "postgis"');
+    // await queryRunner.query('CREATE EXTENSION IF NOT EXISTS "postgis"');
     await queryRunner.createTable(
       new Table({
         name: 'location',
@@ -34,11 +34,11 @@ export class CreateTableLocation1612363821886 implements MigrationInterface {
             type: 'varchar',
             isNullable: true,
           },
-          {
-            name: 'geoLocation',
-            type: 'geometry(Point, 4326)',
-            isNullable: true,
-          },
+          // {
+          //   name: 'geoLocation',
+          //   type: 'geometry(Point, 4326)',
+          //   isNullable: true,
+          // },
           {
             name: 'workingTime',
             type: 'jsonb',
