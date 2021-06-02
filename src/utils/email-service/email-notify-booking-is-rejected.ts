@@ -12,4 +12,5 @@ export const sendEmailNotifyBookingIsRejected = async ({
     html: `<p>Phòng bạn đã đặt không được chấp nhận bởi admin</p>`, // html body
   };
   await transporter.sendMail(mailOptions);
+  await transporter.close();
 };
