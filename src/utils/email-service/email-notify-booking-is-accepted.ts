@@ -12,4 +12,5 @@ export const sendEmailNotifyBookingIsAccepted = async ({
     html: `<p>Phòng bạn đặt đã được chấp nhận bởi admin, vui lòng đến đúng ngày checkin để nhận phòng</p>`, // html body
   };
   await transporter.sendMail(mailOptions);
+  await transporter.close();
 };
