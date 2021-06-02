@@ -9,6 +9,7 @@ export const transporter = nodemailer.createTransport({
   // port: process.env.SMTP_PORT, // <= connection port
   secure: true,
   port: 465,
+  pool: true,
   auth: {
     user: process.env.SMTP_USER || 'da.booking2021@gmail.com', // <= smtp login user
     pass: process.env.SMTP_PASS || 'Enouvo123', // <= smtp login pass
