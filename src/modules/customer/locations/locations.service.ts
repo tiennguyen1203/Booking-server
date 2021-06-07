@@ -105,20 +105,21 @@ export class CustomerLocationsService extends TypeOrmCrudService<Location> {
     newBooking.userId = userId;
     await newBooking.save();
 
-    await this.baseBookingHistoryRepository.save({
-      previousStatus: null,
-      bookingId: newBooking.id,
-      currentStatus: newBooking.status,
-      locationId,
-      roomId,
-    });
-
-    await sendEmailNotifyBookingSuccessfulForSender({
-      receiverEmail: userEmail,
-    });
-    await sendEmailNotifyBookingSuccessfulForOwner({
-      receiverEmail: owner.email,
-    });
+    await Promise.all([
+      this.baseBookingHistoryRepository.save({
+        previousStatus: null,
+        bookingId: newBooking.id,
+        currentStatus: newBooking.status,
+        locationId,
+        roomId,
+      }),
+      sendEmailNotifyBookingSuccessfulForSender({
+        receiverEmail: userEmail,
+      }),
+      sendEmailNotifyBookingSuccessfulForOwner({
+        receiverEmail: owner.email,
+      }),
+    ]);
     return newBooking;
   }
 }
