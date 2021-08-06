@@ -66,11 +66,11 @@ export class AdminBookingsService {
 
     const sender = await this.baseUserRepository.findOne(result.userId);
     if (status === BookingStatus.ACCEPTED) {
-      await sendEmailNotifyBookingIsAccepted({ receiverEmail: sender.email });
+      sendEmailNotifyBookingIsAccepted({ receiverEmail: sender.email });
     }
 
     if (status === BookingStatus.REJECTED) {
-      await sendEmailNotifyBookingIsRejected({ receiverEmail: sender.email });
+      sendEmailNotifyBookingIsRejected({ receiverEmail: sender.email });
     }
 
     return result;
