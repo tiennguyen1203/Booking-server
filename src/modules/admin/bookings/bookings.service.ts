@@ -64,6 +64,7 @@ export class AdminBookingsService {
       locationId,
     });
 
+    console.log('result: ', result);
     const sender = await this.baseUserRepository.findOne(result.userId);
     if (status === BookingStatus.ACCEPTED) {
       try {
