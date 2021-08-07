@@ -64,23 +64,35 @@ export class AdminBookingsService {
       locationId,
     });
 
-    console.log('result: ', result);
-    const sender = await this.baseUserRepository.findOne(result.userId);
-    if (status === BookingStatus.ACCEPTED) {
-      try {
-        console.log('sender.email: ', sender.email);
-        await sendEmailNotifyBookingIsAccepted({ receiverEmail: sender.email });
-      } catch (error) {
-        console.error('sendEmailNotifyBookingIsAccepted fails', error);
+    const senderId = (
+      await this.adminBookingRepository.findOne({
+        where: { id: bookingId },
+      })
+    )?.userId;
+    if (senderId) {
+      const sender = await this.baseUserRepository.findOne(senderId);
+      if (status === BookingStatus.ACCEPTED) {
+        try {
+          console.log('sender.email: ', sender.email);
+          await sendEmailNotifyBookingIsAccepted({
+            receiverEmail: sender.email,
+          });
+        } catch (error) {
+          console.error('sendEmailNotifyBookingIsAccepted fails', error);
+        }
       }
-    }
 
-    if (status === BookingStatus.REJECTED) {
-      try {
-        await sendEmailNotifyBookingIsRejected({ receiverEmail: sender.email });
-      } catch (error) {
-        console.error('sendEmailNotifyBookingIsRejected fails', error);
+      if (status === BookingStatus.REJECTED) {
+        try {
+          await sendEmailNotifyBookingIsRejected({
+            receiverEmail: sender.email,
+          });
+        } catch (error) {
+          console.error('sendEmailNotifyBookingIsRejected fails', error);
+        }
       }
+    } else {
+      console.log(`>>> booking ${bookingId} has no userId`);
     }
 
     return result;
