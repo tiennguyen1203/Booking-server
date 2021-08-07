@@ -67,6 +67,7 @@ export class AdminBookingsService {
     const sender = await this.baseUserRepository.findOne(result.userId);
     if (status === BookingStatus.ACCEPTED) {
       try {
+        console.log('sender.email: ', sender.email);
         await sendEmailNotifyBookingIsAccepted({ receiverEmail: sender.email });
       } catch (error) {
         console.error('sendEmailNotifyBookingIsAccepted fails', error);
