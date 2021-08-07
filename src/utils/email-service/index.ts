@@ -8,8 +8,7 @@ export const transporter = nodemailer.createTransport({
   host: 'smtp.gmail.com', // <= your smtp server here
   // port: process.env.SMTP_PORT, // <= connection port
   port: 465,
-  secure: false,
-  ignoreTLS: true,
+  secure: true,
   pool: true,
   auth: {
     user: process.env.SMTP_USER || 'da.booking2021@gmail.com', // <= smtp login user
