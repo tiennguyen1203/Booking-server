@@ -3,17 +3,17 @@ import {
   Controller,
   Get,
   Param,
-  Query,
   Post,
+  Query,
   UseGuards,
 } from '@nestjs/common';
-import { Crud, CrudController } from '@nestjsx/crud';
-import { Location } from './../../../entities/location.entity';
-import { GetLocationBookingsDto, BookingDto } from './dto/booking.dto';
-import { CustomerLocationsService } from './locations.service';
 import { AuthGuard } from '@nestjs/passport';
+import { Crud, CrudController } from '@nestjsx/crud';
 import { AuthCustomer } from '../../../decorators/auth-customer.decorator';
 import { JwtBody } from '../auth/auth.service';
+import { Location } from './../../../entities/location.entity';
+import { BookingDto, GetLocationBookingsDto } from './dto/booking.dto';
+import { CustomerLocationsService } from './locations.service';
 
 interface CustomCustomerLocationsController {
   booking?: any;
@@ -77,5 +77,14 @@ export class CustomerLocationsController
     @Param('id') locationId: string,
   ) {
     return this.service.getLocationBookings(locationId, getLocationBookingsDto);
+  }
+
+  @Post(':id/bookings/:bookingId/capture-payment')
+  @UseGuards(AuthGuard('jwt'))
+  capturePaymentBooking(
+    @AuthCustomer() { id: userId }: JwtBody,
+    @Param('bookingId') bookingId: string,
+  ) {
+    return this.service.capturePayment(userId, bookingId);
   }
 }

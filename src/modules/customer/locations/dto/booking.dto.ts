@@ -12,6 +12,14 @@ export class BookingDto {
   @IsString()
   @IsNotEmpty()
   roomId: string;
+
+  @IsString()
+  @IsNotEmpty()
+  returnUrl: string;
+
+  @IsString()
+  @IsNotEmpty()
+  cancelUrl: string;
 }
 
 export class GetLocationBookingsDto {
