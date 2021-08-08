@@ -12,5 +12,4 @@ export const sendEmailNotifyBookingSuccessfulForSender = async ({
     html: `<p>Phòng bạn đã đặt đang được xử lý, vui lòng kiểm tra email thường xuyên để biết thêm chi tiết</p>`, // html body
   };
   await transporter.sendMail(mailOptions);
-  await transporter.close();
 };

@@ -7,12 +7,12 @@ import { sendEmailNotifyBookingIsRejected } from './email-notify-booking-is-reje
 export const transporter = nodemailer.createTransport({
   host: 'smtp.gmail.com', // <= your smtp server here
   // port: process.env.SMTP_PORT, // <= connection port
-  secure: true,
   port: 465,
+  secure: true,
   pool: true,
   auth: {
     user: process.env.SMTP_USER || 'da.booking2021@gmail.com', // <= smtp login user
-    pass: process.env.SMTP_PASS || 'Enouvo123', // <= smtp login pass
+    pass: process.env.SMTP_PASS || '01228129873a', // <= smtp login pass
   },
 });
 

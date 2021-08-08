@@ -1,14 +1,14 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
+import { BookingStatus } from '../../../constant';
+import { UpdateBookingDto } from '../../../dto/booking/update-booking.dto';
 import { QueryDto } from '../../../dto/query-params.dto';
 import { Booking } from '../../../entities/booking.entity';
+import { sendEmailNotifyBookingIsAccepted } from '../../../lib/email-service/email-notify-booking-is-accepted';
+import { sendEmailNotifyBookingIsRejected } from '../../../lib/email-service/email-notify-booking-is-rejected';
 import { Pagination } from '../../../paginate';
-import { AdminBookingRepository } from './booking.repository';
-import { UpdateBookingDto } from '../../../dto/booking/update-booking.dto';
-import { BookingStatus } from '../../../constant';
-import { sendEmailNotifyBookingIsAccepted } from '../../../utils/email-service/email-notify-booking-is-accepted';
-import { BaseUserRepository } from '../../base/user/user.repository';
-import { sendEmailNotifyBookingIsRejected } from '../../../utils/email-service/email-notify-booking-is-rejected';
 import { BaseBookingHistoryRepository } from '../../base/booking-histories/booking-history.repository';
+import { BaseUserRepository } from '../../base/user/user.repository';
+import { AdminBookingRepository } from './booking.repository';
 
 @Injectable()
 export class AdminBookingsService {
@@ -64,13 +64,35 @@ export class AdminBookingsService {
       locationId,
     });
 
-    const sender = await this.baseUserRepository.findOne(result.userId);
-    if (status === BookingStatus.ACCEPTED) {
-      await sendEmailNotifyBookingIsAccepted({ receiverEmail: sender.email });
-    }
+    const senderId = (
+      await this.adminBookingRepository.findOne({
+        where: { id: bookingId },
+      })
+    )?.userId;
+    if (senderId) {
+      const sender = await this.baseUserRepository.findOne(senderId);
+      if (status === BookingStatus.ACCEPTED) {
+        try {
+          console.log('sender.email: ', sender.email);
+          await sendEmailNotifyBookingIsAccepted({
+            receiverEmail: sender.email,
+          });
+        } catch (error) {
+          console.error('sendEmailNotifyBookingIsAccepted fails', error);
+        }
+      }
 
-    if (status === BookingStatus.REJECTED) {
-      await sendEmailNotifyBookingIsRejected({ receiverEmail: sender.email });
+      if (status === BookingStatus.REJECTED) {
+        try {
+          await sendEmailNotifyBookingIsRejected({
+            receiverEmail: sender.email,
+          });
+        } catch (error) {
+          console.error('sendEmailNotifyBookingIsRejected fails', error);
+        }
+      }
+    } else {
+      console.log(`>>> booking ${bookingId} has no userId`);
     }
 
     return result;

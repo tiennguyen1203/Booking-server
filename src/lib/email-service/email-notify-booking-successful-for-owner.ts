@@ -12,5 +12,4 @@ export const sendEmailNotifyBookingSuccessfulForOwner = async ({
     html: `<p>Một phòng đã được đặt và chờ xác nhận</p>`, // html body
   };
   await transporter.sendMail(mailOptions);
-  await transporter.close();
 };
