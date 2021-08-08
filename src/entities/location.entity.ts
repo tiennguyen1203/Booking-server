@@ -77,7 +77,11 @@ export class Location extends CustomBaseEntity {
 
   @Column()
   @ApiProperty()
-  userId: string;
+  userId?: string;
+
+  @Column()
+  @ApiProperty()
+  paypalMerchantId?: string;
 
   @ManyToOne(() => LocationType, { eager: true })
   @JoinColumn({

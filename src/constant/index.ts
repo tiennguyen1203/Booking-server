@@ -22,3 +22,9 @@ export const PAYPAL_PARTNER_ATTRIBUTION_ID =
 
 export const PAYPAL_API_URL =
   process.env.PAYPAL_API_URL || 'https://api-m.sandbox.paypal.com';
+
+export enum PAYMENT_STATUS {
+  CREATED = 'CREATED',
+  APPROVED = 'APPROVED',
+  COMPLETED = 'COMPLETED',
+}

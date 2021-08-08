@@ -1,20 +1,26 @@
 import {
+  BadRequestException,
   Injectable,
   NotFoundException,
-  BadRequestException,
 } from '@nestjs/common';
 import { TypeOrmCrudService } from '@nestjsx/crud-typeorm';
+import { PAYMENT_STATUS } from '../../../constant';
 import { Location } from '../../../entities';
-import { BaseRoomRepository } from '../../../modules/base/rooms/room.repository';
-import { BookingRepository } from '../../base/locations/booking.repository';
-import { GetLocationBookingsDto, BookingDto } from './dto/booking.dto';
-import { CustomerLocationRepository } from './location.repository';
-import { Room } from '../../../entities/room.entity';
 import { Booking } from '../../../entities/booking.entity';
+import { Room } from '../../../entities/room.entity';
 import { sendEmailNotifyBookingSuccessfulForSender } from '../../../lib/email-service';
 import { sendEmailNotifyBookingSuccessfulForOwner } from '../../../lib/email-service/email-notify-booking-successful-for-owner';
-import { BaseUserRepository } from '../../base/user/user.repository';
+import {
+  capturePaypalOrder,
+  createPaypalOrder,
+  getPaypalOrder,
+} from '../../../lib/payment-gateway/paypal';
+import { BaseRoomRepository } from '../../../modules/base/rooms/room.repository';
 import { BaseBookingHistoryRepository } from '../../base/booking-histories/booking-history.repository';
+import { BookingRepository } from '../../base/locations/booking.repository';
+import { BaseUserRepository } from '../../base/user/user.repository';
+import { BookingDto, GetLocationBookingsDto } from './dto/booking.dto';
+import { CustomerLocationRepository } from './location.repository';
 
 @Injectable()
 export class CustomerLocationsService extends TypeOrmCrudService<Location> {
@@ -57,7 +63,13 @@ export class CustomerLocationsService extends TypeOrmCrudService<Location> {
 
   async booking({
     locationId,
-    bookingDto: { roomId, startTime: inputStartTime, endTime: inputEndTime },
+    bookingDto: {
+      roomId,
+      startTime: inputStartTime,
+      endTime: inputEndTime,
+      returnUrl,
+      cancelUrl,
+    },
     userId,
     userEmail,
   }: {
@@ -65,15 +77,18 @@ export class CustomerLocationsService extends TypeOrmCrudService<Location> {
     bookingDto: BookingDto;
     userId: string;
     userEmail: string;
-  }): Promise<Booking> {
-    const hasOwner = await this.customerLocationRepository.findOne(locationId);
-    if (!hasOwner.userId) {
+  }) {
+    const location = await this.customerLocationRepository.findOne(locationId);
+    if (!location?.userId) {
       throw new BadRequestException('This location has no owner');
     }
-    const owner = await this.baseUserRepository.findOne(hasOwner.userId);
+    const owner = await this.baseUserRepository.findOne(location.userId);
     if (!owner) {
       throw new BadRequestException('This location has no owner');
     }
+    // if (!location.paypalMerchantId) {
+    //   throw new BadRequestException('This location is not signed up merchant');
+    // }
 
     const existRoom = await this.baseRoomRepository.findOne({
       where: { locationId, id: roomId },
@@ -97,12 +112,21 @@ export class CustomerLocationsService extends TypeOrmCrudService<Location> {
     if (bookings?.length) {
       throw new BadRequestException('Room is not available');
     }
+
+    const USDtoVND = 23000;
+    const paypalOrder = await createPaypalOrder({
+      amountValue: +existRoom.price / USDtoVND,
+      returnUrl,
+      cancelUrl,
+    });
+
     const newBooking = this.bookingRepository.create();
     newBooking.roomId = roomId;
     newBooking.locationId = locationId;
     newBooking.startTime = inputStartTime;
     newBooking.endTime = inputEndTime;
     newBooking.userId = userId;
+    newBooking.orderId = paypalOrder.id;
     await newBooking.save();
 
     try {
@@ -124,6 +148,36 @@ export class CustomerLocationsService extends TypeOrmCrudService<Location> {
       locationId,
       roomId,
     });
-    return newBooking;
+    return {
+      ...newBooking,
+      link: paypalOrder.link,
+    };
+  }
+
+  async capturePayment(userId, bookingId) {
+    const booking = await this.bookingRepository.findOne({
+      where: { id: bookingId, userId },
+    });
+    if (!booking) {
+      throw new BadRequestException('Booking not found');
+    }
+    if (!booking.orderId) {
+      throw new BadRequestException('Cannot capture payment');
+    }
+    const order = await getPaypalOrder(booking.orderId);
+    if (order.status === PAYMENT_STATUS.CREATED) {
+      throw new BadRequestException(
+        `This checkout order isn't approved by buyer yet`,
+      );
+    }
+
+    if (order.status === PAYMENT_STATUS.COMPLETED) {
+      throw new BadRequestException('This checkout order is processed');
+    }
+    await capturePaypalOrder(order.id);
+
+    booking.paymentStatus = order.status;
+    await this.bookingRepository.save(booking);
+    return booking;
   }
 }
