@@ -5,9 +5,9 @@ import { Pagination } from '../../../paginate';
 import { AdminBookingRepository } from './booking.repository';
 import { UpdateBookingDto } from '../../../dto/booking/update-booking.dto';
 import { BookingStatus } from '../../../constant';
-import { sendEmailNotifyBookingIsAccepted } from '../../../utils/email-service/email-notify-booking-is-accepted';
+import { sendEmailNotifyBookingIsAccepted } from '../../../lib/email-service/email-notify-booking-is-accepted';
 import { BaseUserRepository } from '../../base/user/user.repository';
-import { sendEmailNotifyBookingIsRejected } from '../../../utils/email-service/email-notify-booking-is-rejected';
+import { sendEmailNotifyBookingIsRejected } from '../../../lib/email-service/email-notify-booking-is-rejected';
 import { BaseBookingHistoryRepository } from '../../base/booking-histories/booking-history.repository';
 
 @Injectable()

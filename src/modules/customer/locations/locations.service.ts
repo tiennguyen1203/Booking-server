@@ -11,8 +11,8 @@ import { GetLocationBookingsDto, BookingDto } from './dto/booking.dto';
 import { CustomerLocationRepository } from './location.repository';
 import { Room } from '../../../entities/room.entity';
 import { Booking } from '../../../entities/booking.entity';
-import { sendEmailNotifyBookingSuccessfulForSender } from '../../../utils/email-service';
-import { sendEmailNotifyBookingSuccessfulForOwner } from '../../../utils/email-service/email-notify-booking-successful-for-owner';
+import { sendEmailNotifyBookingSuccessfulForSender } from '../../../lib/email-service';
+import { sendEmailNotifyBookingSuccessfulForOwner } from '../../../lib/email-service/email-notify-booking-successful-for-owner';
 import { BaseUserRepository } from '../../base/user/user.repository';
 import { BaseBookingHistoryRepository } from '../../base/booking-histories/booking-history.repository';
 
