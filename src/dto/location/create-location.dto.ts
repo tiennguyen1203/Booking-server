@@ -44,7 +44,7 @@ export class CreateLocationDto {
   @ApiProperty({ required: false })
   workingTime?: any;
 
-  @IsPhoneNumber()
+  @IsPhoneNumber('VN')
   @IsOptional()
   @ApiProperty({ required: false })
   contactPhoneNumber?: string;

@@ -38,7 +38,7 @@ export class UpdateLocationDto {
   workingTime?: any;
 
   @ApiProperty({ required: false })
-  @IsPhoneNumber()
+  @IsPhoneNumber('VN')
   @IsOptional()
   contactPhoneNumber?: string;
 

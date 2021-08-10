@@ -48,6 +48,7 @@ export class CustomerLocationsService extends TypeOrmCrudService<Location> {
         AND id NOT IN (
           SELECT "roomId" FROM booking
           WHERE "locationId" = '${locationId}'
+          AND "paymentStatus" = '${PAYMENT_STATUS.APPROVED}'
           AND (
             ("startTime" <= TIMESTAMP WITH TIME ZONE '${inputStartTime}' AND "endTime" >= TIMESTAMP WITH TIME ZONE '${inputStartTime}')
             OR ("startTime" <= TIMESTAMP WITH TIME ZONE '${inputEndTime}' AND "endTime" >= TIMESTAMP WITH TIME ZONE '${inputEndTime}')
@@ -101,6 +102,7 @@ export class CustomerLocationsService extends TypeOrmCrudService<Location> {
       `
         SELECT * FROM "booking"
         WHERE "roomId" = '${roomId}'
+        AND "paymentStatus" = '${PAYMENT_STATUS.APPROVED}'
         AND (
           ("startTime" <= TIMESTAMP WITH TIME ZONE '${inputStartTime}' AND "endTime" >= TIMESTAMP WITH TIME ZONE '${inputStartTime}')
           OR ("startTime" <= TIMESTAMP WITH TIME ZONE '${inputEndTime}' AND "endTime" >= TIMESTAMP WITH TIME ZONE '${inputEndTime}')

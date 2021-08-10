@@ -43,7 +43,7 @@ export class SignUpCredentialsDto {
   @IsOptional()
   avatar?: string;
 
-  @IsPhoneNumber()
+  @IsPhoneNumber('VN')
   @IsOptional()
   @ApiProperty({ required: false })
   phoneNumber?: string;
