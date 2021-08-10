@@ -22,7 +22,7 @@ export class UpdateUserDto {
   avatar: string;
 
   @ApiProperty({ required: false })
-  @IsPhoneNumber()
+  @IsPhoneNumber('VN')
   @IsOptional()
   phoneNumber?: string;
 }
