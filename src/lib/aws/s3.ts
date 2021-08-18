@@ -41,6 +41,7 @@ export class S3Adapter {
       region: AWS_REGION,
       accessKeyId: AWS_ACCESS_KEY_ID,
       secretAccessKey: AWS_SECRET_ACCESS_KEY,
+      signatureVersion: 'v4',
     });
   }
 
