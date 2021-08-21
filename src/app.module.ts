@@ -18,6 +18,7 @@ import { CustomerFacilitiesModule } from './modules/customer/facilities/faciliti
 import { CustomerLocationsModule } from './modules/customer/locations/locations.module';
 import { CustomerRoomsModule } from './modules/customer/rooms/rooms.module';
 import { CustomerUsersModule } from './modules/customer/users/users.module';
+import { RedisCacheModule } from './modules/redis-cache/redis-cache.module';
 import { SuperAdminAuthModule } from './modules/super-admin/auth/auth.module';
 import { LocationsModule as SuperAdminLocationsModule } from './modules/super-admin/locations/locations.module';
 import { SuperAdminUsersModule } from './modules/super-admin/users/users.module';
@@ -44,6 +45,7 @@ import { SuperAdminUsersModule } from './modules/super-admin/users/users.module'
     UsersModule,
     BookingHistoriesModule,
     RoomModule,
+    RedisCacheModule,
   ],
   controllers: [AppController],
   providers: [AppService, S3Adapter],

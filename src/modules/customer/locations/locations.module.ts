@@ -4,6 +4,7 @@ import { BaseBookingHistoryRepository } from '../../base/booking-histories/booki
 import { BookingRepository } from '../../base/locations/booking.repository';
 import { BaseRoomRepository } from '../../base/rooms/room.repository';
 import { BaseUserRepository } from '../../base/user/user.repository';
+import { RedisCacheModule } from './../../redis-cache/redis-cache.module';
 import { passportModule } from './../auth/auth.module';
 import { CustomerLocationRepository } from './location.repository';
 import { CustomerLocationsController } from './locations.controller';
@@ -14,6 +15,7 @@ import { CustomerLocationsService } from './locations.service';
   providers: [CustomerLocationsService],
   imports: [
     passportModule,
+    RedisCacheModule,
     TypeOrmModule.forFeature([
       CustomerLocationRepository,
       BookingRepository,

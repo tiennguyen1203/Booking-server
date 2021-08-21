@@ -1,6 +1,6 @@
-import { Controller, Get, Post, UseGuards, Body } from '@nestjs/common';
+import { Body, Controller, Get, Post, UseGuards } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
-import { IsString, IsNotEmpty } from 'class-validator';
+import { IsNotEmpty, IsString } from 'class-validator';
 import { AppService } from './app.service';
 import { S3Adapter } from './lib/aws/s3';
 

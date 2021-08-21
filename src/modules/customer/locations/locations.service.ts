@@ -19,6 +19,7 @@ import { BaseRoomRepository } from '../../../modules/base/rooms/room.repository'
 import { BaseBookingHistoryRepository } from '../../base/booking-histories/booking-history.repository';
 import { BookingRepository } from '../../base/locations/booking.repository';
 import { BaseUserRepository } from '../../base/user/user.repository';
+import { RedisCacheService } from './../../redis-cache/redis-cache.service';
 import { BookingDto, GetLocationBookingsDto } from './dto/booking.dto';
 import { CustomerLocationRepository } from './location.repository';
 
@@ -30,6 +31,7 @@ export class CustomerLocationsService extends TypeOrmCrudService<Location> {
     private readonly baseRoomRepository: BaseRoomRepository,
     private readonly baseUserRepository: BaseUserRepository,
     private readonly baseBookingHistoryRepository: BaseBookingHistoryRepository,
+    private readonly redisService: RedisCacheService,
   ) {
     super(customerLocationRepository);
   }
@@ -181,5 +183,15 @@ export class CustomerLocationsService extends TypeOrmCrudService<Location> {
     booking.paymentStatus = order.status;
     await this.bookingRepository.save(booking);
     return booking;
+  }
+
+  async getOne(request) {
+    const locationId = request.parsed.paramsFilter.find((e) => e.field === 'id')
+      .value;
+    const key = `locations:${locationId}:views_count`;
+    const count = (await this.redisService.get<number>(key)) || 0;
+
+    await this.redisService.set(key, count + 1);
+    return super.getOne(request);
   }
 }

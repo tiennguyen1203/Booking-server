@@ -12,13 +12,33 @@ import { SuperAdminLocationsService } from './locations.service';
     type: Location,
   },
   routes: {
-    only: ['createOneBase'],
+    only: ['createOneBase', 'getManyBase'],
   },
   dto: {
     create: CreateLocationDto,
   },
   params: {
     id: { type: 'uuid', primary: true, field: 'id' },
+  },
+  query: {
+    limit: 10,
+    alwaysPaginate: true,
+    join: {
+      locationType: {
+        allow: ['name', 'description'],
+      },
+      rooms: {},
+      city: {
+        allow: [
+          'name',
+          'description',
+          'thumbnail',
+          'totalLocations',
+          'averagePrice',
+        ],
+      },
+      serviceTypes: {},
+    },
   },
 })
 @Controller('super-admin/locations')
