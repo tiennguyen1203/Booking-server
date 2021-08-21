@@ -4,6 +4,7 @@ import { PAYMENT_STATUS } from '../constant';
 import { CustomBaseEntity } from './base.entity';
 import { Location } from './location.entity';
 import { Room } from './room.entity';
+import { User } from './user.entity';
 
 @Entity({ name: 'booking' })
 export class Booking extends CustomBaseEntity {
@@ -41,9 +42,13 @@ export class Booking extends CustomBaseEntity {
 
   @ManyToOne(() => Room, { eager: true })
   @JoinColumn()
-  room: Room;
+  room?: Room;
 
   @ManyToOne(() => Location, { eager: true })
   @JoinColumn()
-  location: Location;
+  location?: Location;
+
+  @ManyToOne(() => User)
+  @JoinColumn()
+  user?: User;
 }
