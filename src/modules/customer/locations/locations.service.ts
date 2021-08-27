@@ -22,6 +22,7 @@ import { BaseUserRepository } from '../../base/user/user.repository';
 import { RedisCacheService } from './../../redis-cache/redis-cache.service';
 import { BookingDto, GetLocationBookingsDto } from './dto/booking.dto';
 import { CustomerLocationRepository } from './location.repository';
+import moment from 'moment';
 
 @Injectable()
 export class CustomerLocationsService extends TypeOrmCrudService<Location> {
@@ -118,8 +119,13 @@ export class CustomerLocationsService extends TypeOrmCrudService<Location> {
     }
 
     const USDtoVND = 23000;
+    const diffHours = moment
+      .duration(moment(inputEndTime).diff(moment(inputStartTime)))
+      .asHours();
+    const diffDays = diffHours / 24;
+
     const paypalOrder = await createPaypalOrder({
-      amountValue: +existRoom.price / USDtoVND,
+      amountValue: (+existRoom.price * diffDays) / USDtoVND,
       returnUrl,
       cancelUrl,
     });
